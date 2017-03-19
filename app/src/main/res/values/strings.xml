@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">AroundU</string>
+    <string-array name="categories">
+        <item>airport</item>
+        <item>amusement_park</item>
+        <item>aquarium</item>
+        <item>atm</item>
+        <item>bakery</item>
+        <item>bank</item>
+        <item>bar</item>
+        <item>beauty_salon</item>
+        <item>book_store</item>
+        <item>bowling_alley</item>
+        <item>bus_station</item>
+        <item>cafe</item>
+        <item>church</item>
+        <item>department_store</item>
+        <item>doctor</item>
+        <item>food</item>
+        <item>gym</item>
+        <item>hair_care</item>
+        <item>hospital</item>
+        <item>jewelry_store</item>
+        <item>laundry</item>
+        <item>library</item>
+        <item>movie_theater</item>
+        <item>park</item>
+        <item>pharmacy</item>
+        <item>police</item>
+        <item>post_office</item>
+        <item>restaurant</item>
+        <item>school</item>
+        <item>travel_agency</item>
+        <item>university</item>
+    </string-array>
 </resources>
