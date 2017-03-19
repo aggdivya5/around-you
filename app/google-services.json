@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "469079800031",
+    "firebase_url": "https://aroundu-f3d87.firebaseio.com",
+    "project_id": "aroundu-f3d87",
+    "storage_bucket": "aroundu-f3d87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469079800031:android:4dc6ee297aad270a",
+        "android_client_info": {
+          "package_name": "com.mytechwall.aroundu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469079800031-ruij25ojvlm2prv0oo6k9pg09dk11omk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mytechwall.aroundu",
+            "certificate_hash": "1e0e038dcc9492215c01a35e11e0402ee1ef4f21"
+          }
+        },
+        {
+          "client_id": "469079800031-ce0lsd42jrpfpsqshecnuh9l9n5sgg5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChDLNzMRwDr9cF9RJ1DN4mkh40lz470Eg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469079800031-ce0lsd42jrpfpsqshecnuh9l9n5sgg5m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
