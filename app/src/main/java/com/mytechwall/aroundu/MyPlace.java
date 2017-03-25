@@ -2,10 +2,6 @@ package com.mytechwall.aroundu;
 
 import java.io.Serializable;
 
-/**
- * Created by Vasu on 12-03-2017.
- */
-
 public class MyPlace implements Serializable {
 
     String icon;

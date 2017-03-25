@@ -1,13 +1,17 @@
 package com.mytechwall.aroundu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class PlacesList extends AppCompatActivity {
@@ -19,6 +23,7 @@ public class PlacesList extends AppCompatActivity {
     String[] longitude;
     String[] rating;
     String[] vicinity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +59,30 @@ public class PlacesList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                Toast.makeText(PlacesList.this, name[position] +" clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlacesList.this, name[position] + " clicked", Toast.LENGTH_SHORT).show();
 
+                Intent i = new Intent(PlacesList.this, MapMarker.class);
+                double lat = Double.parseDouble(latitude[position]);
+                double lng = Double.parseDouble(longitude[position]);
+                i.putExtra("name", name[position]);
+                i.putExtra("latitude", round(lat, 3));
+                i.putExtra("longitude", round(lng, 3));
+
+                Log.i("latitude", round(lat, 3) + "");
+                Log.i("longitude", round(lng, 3) + "");
+                //  Toast.makeText(PlacesList.this, latitude[position] + " " + longitude[position], Toast.LENGTH_SHORT).show();
+                startActivity(i);
             }
 
         });
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
 }
