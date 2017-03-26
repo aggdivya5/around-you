@@ -2,6 +2,7 @@ package com.mytechwall.aroundu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,17 +41,12 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
     String distance = "10";
     String type;
     Button button;
-    private String REGISTER_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=31.820762,75.200446&radius=500&type=restaurant&key=AIzaSyAFK3BjW-X9-K0gegSsC2GjltQGfw1NGUc";
+    private String REGISTER_URL;
     ArrayList<MyPlace> places;
     int category = -1;
     SeekBar seekBar1;
     EditText dist;
     protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Context context;
-    String provider;
-    protected String latitude, longitude;
-    protected boolean gps_enabled, network_enabled;
     Double lat = 0.0;
     Double lng = 0.0;
     boolean done = false;
@@ -66,21 +62,32 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
         seekBar1 = (SeekBar) findViewById(R.id.seekBar);
         seekBar1.setOnSeekBarChangeListener(this);
         type = " ";
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         Toast.makeText(getApplicationContext(), "Maximum allowed distance is 5 kms", Toast.LENGTH_SHORT).show();
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,}, 0);
 
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, Dummy.this, null);
+            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, Dummy.this, null);
+            Toast.makeText(getApplicationContext(), "Have permissions", Toast.LENGTH_SHORT).show();
         }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, Dummy.this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, Dummy.this);
+
         if (locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null) {
             lat = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
             lng = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
             done = true;
-        } else if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
+        }
+        if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
             lat = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
             lng = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
             done = true;
@@ -113,7 +120,10 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
                                     REGISTER_URL += "&type=" + type + "&key=AIzaSyAFK3BjW-X9-K0gegSsC2GjltQGfw1NGUc";
 
                                     try {
+
+                                        Log.i("URL", REGISTER_URL);
                                         getdata();
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                         Toast.makeText(Dummy.this, "JSON Exception", Toast.LENGTH_SHORT).show();
@@ -124,12 +134,15 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
                             .positiveText("Go")
                             .show();
                 }
-
-
             }
         });
 
+        if (locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null) {
+            Location myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
+            lat = myLocation.getLatitude();
+            lng = myLocation.getLongitude();
+        }
     }
 
     @Override
@@ -147,8 +160,6 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
-
-                        // pDialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("status");
@@ -236,7 +247,6 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        //Toast.makeText(getApplicationContext(),"seekbar progress: "+progress, Toast.LENGTH_SHORT).show();
         prog = progress;
         dist.setText(prog + "");
     }
@@ -247,13 +257,15 @@ public class Dummy extends AppCompatActivity implements SeekBar.OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(getApplicationContext(), "Distance shown is in meters", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+        done = true;
     }
+
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {

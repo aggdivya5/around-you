@@ -1,5 +1,6 @@
 package com.mytechwall.aroundu;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ public class MapMarker extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_marker);
         Bundle b = getIntent().getExtras();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         lat = b.getDouble("latitude");
         lng = b.getDouble("longitude");
         name = b.getString("name");

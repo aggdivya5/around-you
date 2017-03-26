@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         YoYo.with(Techniques.BounceIn)
                 .duration(1000)
                 .playOn(logo);
+
         YoYo.with(Techniques.FadeIn)
                 .duration(2500)
                 .playOn(text);
-
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Thread timer = new Thread() {
